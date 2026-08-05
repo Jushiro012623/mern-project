@@ -4,6 +4,8 @@ RUN addgroup -S app && adduser -S -G app app
 
 WORKDIR /app
 
+RUN chown app:app /app
+
 COPY --chown=app:app package*.json yarn.lock* ./
 
 USER app
