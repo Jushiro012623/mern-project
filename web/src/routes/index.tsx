@@ -1,6 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({ component: Home })
+export const Route = createFileRoute('/')({
+  component: Home,
+  head: () => ({
+    meta: [
+      {
+        title: `Home | ${import.meta.env.VITE_APP_NAME}`
+      }
+    ]
+  })
+})
 
 function Home() {
   return (
