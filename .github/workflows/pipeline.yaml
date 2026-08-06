@@ -1,0 +1,37 @@
+name: MERN Project Pipeline
+
+on:
+  push:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.Js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install Server Dependency
+        working-directory: ./server
+        run: yarn install
+
+      - name: Build Server
+        working-directory: ./server
+        run: yarn build
+
+      - name: Install Web Dependency
+        working-directory: ./web
+        run: yarn install
+
+      - name: Build Web
+        working-directory: ./web
+        run: yarn build
+
+      - name: Build Docker Images
+        run: docker compose build

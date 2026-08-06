@@ -1,0 +1,68 @@
+services:
+  web:
+    depends_on:
+      - server
+    build: ./web
+    container_name: mern-web
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://server:3000
+    develop:
+      watch:
+        - path: ./web/package.json
+          action: rebuild
+        - path: ./web/package-lock.json
+          action: rebuild
+        - path: ./web/yarn.lock
+          action: rebuild
+        - path: ./web
+          target: /app
+          action: sync
+  server:
+    depends_on:
+      - mongo
+      - mysql
+    build: ./server
+    container_name: mern-server
+    ports:
+      - "3000:3000"
+    environment:
+      MYSQL_URI: mysql://root:root@mysql:3306/app
+      MONGODB_URI: mongodb://mongo:27017/app
+    develop:
+      watch:
+        - path: ./server
+          target: /app
+          action: sync
+          ignore:
+            - node_modules/
+            - dist/
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mongo-data:
+  mysql-data:
+
+
+
+
+
+
+
+
