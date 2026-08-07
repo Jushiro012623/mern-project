@@ -2,7 +2,7 @@ name: MERN Project Pipeline
 
 on:
   push:
-    branches: [main, dev]
+    branches: [ main, dev ]
 
 jobs:
   build:
@@ -12,26 +12,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v5
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v5
+      - name: Set up Node.Js
+        uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: yarn
-
-      - name: Enable Corepack
-        run: |
-          corepack enable
-          corepack install
-
-      - name: Verify versions
-        run: |
-          node -v
-          corepack --version
-          yarn -v
 
       - name: Install Server Dependencies
         working-directory: ./server
-        run: yarn install --immutable
+        run: |
+          corepack enable
+          yarn install --immutable
 
       - name: Build Server
         working-directory: ./server
@@ -39,7 +29,9 @@ jobs:
 
       - name: Install Web Dependencies
         working-directory: ./web
-        run: yarn install --immutable
+        run: |
+          corepack enable
+          yarn install --immutable
 
       - name: Build Web
         working-directory: ./web
