@@ -32,8 +32,7 @@ function SignIn() {
 
   const {visible, toggle, inputType} = useEyeToggle()
   const {values, handleOnChange, setErrors, errors} = useFormValue<Infer<typeof SignInSchema>>({
-    username: "",
-    password: ""
+    username: "", password: ""
   })
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -90,7 +89,15 @@ function SignIn() {
             </Field>
             {/*-------------------PASSWORD-------------------*/}
             <Field data-invalid={!!errors.password} className="grid gap-2">
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <div className="flex items-center justify-between">
+                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <Link
+                  to="/auth/forgot-password"
+                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <InputGroup>
                 <InputGroupAddon align="inline-start"><Lock/></InputGroupAddon>
                 <InputGroupInput
@@ -134,11 +141,11 @@ function SignIn() {
             <div className="h-px flex-1 bg-border"/>
           </div>
           {/*---------CREATE ACCOUNT BUTTON---------*/}
-          <Button variant="outline" className="w-full">
-            <Link to="/auth/sign-up">
+          <Link to="/auth/sign-up" className="w-full">
+            <Button variant="outline" className="w-full">
               Create an account
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </main>

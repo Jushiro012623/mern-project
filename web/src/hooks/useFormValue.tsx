@@ -22,6 +22,7 @@ export function useFormValue<T extends Record<string, string>>(initialValue: T) 
       ...prev,
       [name]: undefined,
     }));
+
   };
 
   const clearErrors = () => setErrors({});
